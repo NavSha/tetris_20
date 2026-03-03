@@ -868,6 +868,24 @@
         let blockPlaceTime;
         let linesAtLevel20;
         let lastMoveWasRotation;
+        let pieceBag;
+
+        // ========== 7-BAG RANDOMIZER ==========
+        function shuffleBag() {
+            const bag = [1, 2, 3, 4, 5, 6, 7];
+            for (let i = bag.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [bag[i], bag[j]] = [bag[j], bag[i]];
+            }
+            return bag;
+        }
+
+        function nextPieceType() {
+            if (!pieceBag || pieceBag.length === 0) {
+                pieceBag = shuffleBag();
+            }
+            return pieceBag.pop();
+        }
 
         // ========== SCREEN SHAKE ==========
         function screenShake() {
@@ -960,6 +978,7 @@
             lastClearWasSpecial = false;
             linesAtLevel20 = 0;
             lastMoveWasRotation = false;
+            pieceBag = [];
 
             updateScore();
             updateLines();
@@ -977,7 +996,7 @@
 
         // ========== PIECE CREATION ==========
         function createPiece() {
-            const type = Math.floor(Math.random() * 7) + 1;
+            const type = nextPieceType();
             return {
                 shape: SHAPES[type].map(row => [...row]),
                 color: type,
