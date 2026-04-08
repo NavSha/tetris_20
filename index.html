@@ -24,6 +24,67 @@
             --neon-red: #ff2244;
         }
 
+        /* ===== THEME OVERRIDES ===== */
+        [data-theme="cyberpunk"] {
+            --bg-void: #0a0010;
+            --bg-board: #0f0015;
+            --glow-green: #ff00ff;
+            --glow-green-dim: rgba(255, 0, 255, 0.12);
+            --text-warm: #ffcc00;
+            --neon-cyan: #00ffff;
+            --neon-blue: #dd44ff;
+            --neon-orange: #ff0099;
+            --neon-yellow: #ffcc00;
+            --neon-green: #00ff88;
+            --neon-purple: #dd44ff;
+            --neon-red: #ff0066;
+        }
+
+        [data-theme="sunset"] {
+            --bg-void: #0d0500;
+            --bg-board: #12070a;
+            --glow-green: #ff6644;
+            --glow-green-dim: rgba(255, 102, 68, 0.12);
+            --text-warm: #ffaa55;
+            --neon-cyan: #ffaa55;
+            --neon-blue: #ff7744;
+            --neon-orange: #ff6633;
+            --neon-yellow: #ffcc55;
+            --neon-green: #ff8855;
+            --neon-purple: #dd5577;
+            --neon-red: #ff4444;
+        }
+
+        [data-theme="ice"] {
+            --bg-void: #010508;
+            --bg-board: #0a0f1a;
+            --glow-green: #66ddff;
+            --glow-green-dim: rgba(102, 221, 255, 0.12);
+            --text-warm: #aaddff;
+            --neon-cyan: #ffffff;
+            --neon-blue: #88ddff;
+            --neon-orange: #aaddff;
+            --neon-yellow: #ffffcc;
+            --neon-green: #88ffaa;
+            --neon-purple: #ddccff;
+            --neon-red: #ffccdd;
+        }
+
+        [data-theme="retro"] {
+            --bg-void: #0f1a0f;
+            --bg-board: #0a2a0a;
+            --glow-green: #55ff55;
+            --glow-green-dim: rgba(85, 255, 85, 0.12);
+            --text-warm: #88ff00;
+            --neon-cyan: #55ff55;
+            --neon-blue: #44dd44;
+            --neon-orange: #66ff44;
+            --neon-yellow: #88ff00;
+            --neon-green: #55ff55;
+            --neon-purple: #44dd44;
+            --neon-red: #44ff44;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -405,6 +466,120 @@
             text-shadow: 0 0 8px rgba(51, 255, 136, 0.5);
         }
 
+        /* ===== MODE SELECT ===== */
+        .mode-select {
+            margin-bottom: 24px;
+        }
+
+        .mode-select h2 {
+            font-size: 10px;
+            color: var(--glow-green);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(51, 255, 136, 0.3);
+        }
+
+        .mode-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 8px 12px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            border: 1px solid var(--border-dim);
+            border-radius: 4px;
+            background: #0a0a14;
+            color: #556655;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            letter-spacing: 1px;
+        }
+
+        .mode-btn:hover {
+            color: var(--glow-green);
+            border-color: rgba(51, 255, 136, 0.3);
+            box-shadow: 0 0 15px rgba(51, 255, 136, 0.1);
+        }
+
+        .mode-btn.selected {
+            color: var(--glow-green);
+            border-color: var(--glow-green);
+            background: rgba(51, 255, 136, 0.06);
+            box-shadow: 0 0 20px rgba(51, 255, 136, 0.15);
+            text-shadow: 0 0 8px rgba(51, 255, 136, 0.5);
+        }
+
+        /* ===== TIMER DISPLAY ===== */
+        .timer-box {
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 24px;
+            color: var(--text-warm);
+            font-family: 'Press Start 2P', monospace;
+            text-shadow: 0 0 12px rgba(212, 168, 86, 0.4);
+            margin-top: 8px;
+        }
+
+        /* ===== THEME BUTTONS ===== */
+        .theme-box {
+            text-align: center;
+        }
+
+        .theme-buttons {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+
+        .theme-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .theme-btn[data-theme="arcade"] {
+            background: linear-gradient(135deg, #00ffff, #ff2244);
+        }
+
+        .theme-btn[data-theme="cyberpunk"] {
+            background: linear-gradient(135deg, #ff00ff, #ff0099);
+        }
+
+        .theme-btn[data-theme="sunset"] {
+            background: linear-gradient(135deg, #ffaa55, #ff6633);
+        }
+
+        .theme-btn[data-theme="ice"] {
+            background: linear-gradient(135deg, #ffffff, #88ddff);
+        }
+
+        .theme-btn[data-theme="retro"] {
+            background: linear-gradient(135deg, #55ff55, #44dd44);
+        }
+
+        .theme-btn:hover {
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .theme-btn.selected {
+            border-color: var(--text-warm);
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
+            transform: scale(1.15);
+        }
+
         /* ===== BUTTONS ===== */
         .start-btn {
             padding: 16px 40px;
@@ -766,6 +941,14 @@
         <h1 class="game-title">
             <span style="--glow: #cc22ff; --i: 0">T</span><span style="--glow: #00ffff; --i: 1">E</span><span style="--glow: #ff8811; --i: 2">T</span><span style="--glow: #ff2244; --i: 3">R</span><span style="--glow: #00ff44; --i: 4">I</span><span style="--glow: #ffee00; --i: 5">S</span>
         </h1>
+        <div class="mode-select">
+            <h2>SELECT MODE</h2>
+            <div class="mode-buttons">
+                <button class="mode-btn" data-mode="marathon" id="modeMarathon">MARATHON</button>
+                <button class="mode-btn" data-mode="timeattack" id="modeTimeAttack">TIME ATTACK</button>
+                <button class="mode-btn" data-mode="zen" id="modeZen">ZEN</button>
+            </div>
+        </div>
         <div class="level-select">
             <h2>SELECT LEVEL</h2>
             <div class="level-buttons" id="levelButtons"></div>
@@ -775,9 +958,9 @@
 
     <!-- Game Over Screen -->
     <div class="game-over-screen hidden" id="gameOverScreen">
-        <h1 class="screen-title game-over-title">GAME OVER</h1>
+        <h1 class="screen-title game-over-title" id="gameOverTitle">GAME OVER</h1>
         <div class="final-score">SCORE <span id="finalScore">0</span></div>
-        <div class="final-score">LEVEL <span id="finalLevel">1</span></div>
+        <div class="final-score" id="finalLevelDisplay" style="display:none;">LEVEL <span id="finalLevel">1</span></div>
         <button class="start-btn" id="restartBtn">CONTINUE?</button>
     </div>
 
@@ -802,6 +985,10 @@
             <div class="panel-box">
                 <div class="panel-label">HOLD</div>
                 <canvas id="holdPiece" class="piece-canvas" width="120" height="120"></canvas>
+            </div>
+            <div class="panel-box timer-box" id="timerBox" style="display:none;">
+                <div class="panel-label">TIME</div>
+                <div class="timer-display" id="timerDisplay">3:00</div>
             </div>
             <div class="panel-box stats-box">
                 <div class="stat-row">
@@ -843,6 +1030,16 @@
             <div class="panel-box">
                 <div class="panel-label">NEXT</div>
                 <canvas id="nextPiece" class="piece-canvas" width="120" height="120"></canvas>
+            </div>
+            <div class="panel-box theme-box">
+                <div class="panel-label">THEME</div>
+                <div class="theme-buttons">
+                    <button class="theme-btn" data-theme="arcade" id="themeArcade" title="Neon Arcade"></button>
+                    <button class="theme-btn" data-theme="cyberpunk" id="themeCyberpunk" title="Cyberpunk"></button>
+                    <button class="theme-btn" data-theme="sunset" id="themeSunset" title="Sunset"></button>
+                    <button class="theme-btn" data-theme="ice" id="themeIce" title="Ice"></button>
+                    <button class="theme-btn" data-theme="retro" id="themeRetro" title="Retro"></button>
+                </div>
             </div>
         </div>
     </div>
@@ -887,6 +1084,57 @@
             '#cc22ff', // T - Purple
             '#ff2244'  // Z - Red
         ];
+
+        // ===== THEME DEFINITIONS =====
+        const THEMES = {
+            arcade: {
+                colors: [null, '#00ffff', '#4466ff', '#ff8811', '#ffee00', '#00ff44', '#cc22ff', '#ff2244'],
+                bg: '#06060c',
+                name: 'Neon Arcade'
+            },
+            cyberpunk: {
+                colors: [null, '#00ffff', '#dd44ff', '#ff0099', '#ffcc00', '#00ff88', '#dd44ff', '#ff0066'],
+                bg: '#0f0015',
+                name: 'Cyberpunk'
+            },
+            sunset: {
+                colors: [null, '#ffaa55', '#ff7744', '#ff6633', '#ffcc55', '#ff8855', '#dd5577', '#ff4444'],
+                bg: '#12070a',
+                name: 'Sunset'
+            },
+            ice: {
+                colors: [null, '#ffffff', '#88ddff', '#aaddff', '#ffffcc', '#88ffaa', '#ddccff', '#ffccdd'],
+                bg: '#0a0f1a',
+                name: 'Ice'
+            },
+            retro: {
+                colors: [null, '#55ff55', '#44dd44', '#66ff44', '#88ff00', '#55ff55', '#44dd44', '#44ff44'],
+                bg: '#0a2a0a',
+                name: 'Retro'
+            }
+        };
+
+        let activeTheme = 'arcade';
+
+        function getColors() {
+            return THEMES[activeTheme].colors;
+        }
+
+        function getBgColor() {
+            return THEMES[activeTheme].bg;
+        }
+
+        function applyTheme(themeName) {
+            if (THEMES[themeName]) {
+                activeTheme = themeName;
+                document.documentElement.setAttribute('data-theme', themeName);
+                localStorage.setItem('tetris-theme', themeName);
+                // Redraw if game is running
+                if (!isGameOver && !isPaused && gameLoop) {
+                    draw();
+                }
+            }
+        }
 
         const SHAPES = [
             null,
@@ -1095,6 +1343,11 @@
         let lastMoveWasRotation;
         let pieceBag;
 
+        // ===== GAME MODE STATE =====
+        let gameMode = 'marathon'; // 'marathon' | 'timeattack' | 'zen'
+        let timeAttackTimer = 180000; // 3 minutes in ms
+        let timeAttackRunning = false;
+
         // ========== 7-BAG RANDOMIZER ==========
         function shuffleBag() {
             const bag = [1, 2, 3, 4, 5, 6, 7];
@@ -1141,6 +1394,12 @@
             holdCtx = holdCanvas.getContext('2d');
 
             createLevelButtons();
+            createModeButtons();
+            createThemeButtons();
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('tetris-theme') || 'arcade';
+            applyTheme(savedTheme);
 
             document.getElementById('startBtn').addEventListener('click', startGame);
             document.getElementById('restartBtn').addEventListener('click', returnToStart);
@@ -1148,13 +1407,15 @@
 
             document.addEventListener('keydown', handleKeyPress);
 
-            holdCtx.fillStyle = BG_COLOR;
+            holdCtx.fillStyle = getBgColor();
             holdCtx.fillRect(0, 0, holdCanvas.width, holdCanvas.height);
         }
 
         function returnToStart() {
             document.getElementById('gameOverScreen').classList.add('hidden');
             document.getElementById('victoryScreen').classList.add('hidden');
+            document.getElementById('gameOverTitle').textContent = 'GAME OVER';
+            document.getElementById('finalLevelDisplay').style.display = 'none';
             document.getElementById('startScreen').classList.remove('hidden');
         }
 
@@ -1174,6 +1435,36 @@
             startLevel = 1;
         }
 
+        function createModeButtons() {
+            const modes = ['marathon', 'timeattack', 'zen'];
+            modes.forEach(mode => {
+                const btn = document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1));
+                if (btn) {
+                    if (mode === 'marathon') btn.classList.add('selected');
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        gameMode = mode;
+                    });
+                }
+            });
+        }
+
+        function createThemeButtons() {
+            const themes = ['arcade', 'cyberpunk', 'sunset', 'ice', 'retro'];
+            themes.forEach(theme => {
+                const btn = document.getElementById('theme' + theme.charAt(0).toUpperCase() + theme.slice(1));
+                if (btn) {
+                    if (theme === 'arcade') btn.classList.add('selected');
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                        applyTheme(theme);
+                    });
+                }
+            });
+        }
+
         function updateLevelDisplay() {
             document.getElementById('levelDisplay').textContent = level;
         }
@@ -1190,7 +1481,18 @@
             isPaused = false;
             isGameOver = false;
             dropCounter = 0;
-            dropInterval = LEVEL_SPEEDS[level - 1];
+
+            // Handle game mode-specific initialization
+            if (gameMode === 'timeattack') {
+                dropInterval = LEVEL_SPEEDS[4]; // Level 5 fixed speed
+                timeAttackTimer = 180000; // 3 minutes
+                timeAttackRunning = true;
+            } else if (gameMode === 'zen') {
+                dropInterval = LEVEL_SPEEDS[0]; // Level 1 speed
+            } else {
+                dropInterval = LEVEL_SPEEDS[level - 1];
+            }
+
             holdPiece = null;
             hasHeld = false;
             isLocking = false;
@@ -1209,7 +1511,17 @@
             updateLines();
             updateLevelDisplay();
 
-            holdCtx.fillStyle = BG_COLOR;
+            // Show/hide timer based on game mode
+            const timerBox = document.getElementById('timerBox');
+            if (gameMode === 'timeattack') {
+                timerBox.style.display = 'block';
+                document.getElementById('finalLevelDisplay').style.display = 'none';
+            } else {
+                timerBox.style.display = 'none';
+                document.getElementById('finalLevelDisplay').style.display = 'block';
+            }
+
+            holdCtx.fillStyle = getBgColor();
             holdCtx.fillRect(0, 0, holdCanvas.width, holdCanvas.height);
 
             nextPiece = createPiece();
@@ -1242,7 +1554,11 @@
             lastMoveWasRotation = false;
 
             if (collision()) {
-                gameOver();
+                if (gameMode === 'zen') {
+                    zenClearBottomRows();
+                } else {
+                    gameOver();
+                }
             }
 
             drawNextPiece();
@@ -1278,7 +1594,11 @@
                 lastMoveWasRotation = false;
 
                 if (collision()) {
-                    gameOver();
+                    if (gameMode === 'zen') {
+                        zenClearBottomRows();
+                    } else {
+                        gameOver();
+                    }
                 }
             }
 
@@ -1299,7 +1619,7 @@
             for (let y = 0; y < shape.length; y++) {
                 for (let x = 0; x < shape[y].length; x++) {
                     if (shape[y][x]) {
-                        drawPreviewBlock(holdCtx, offsetX + x * blockSize, offsetY + y * blockSize, blockSize, COLORS[holdPiece.color]);
+                        drawPreviewBlock(holdCtx, offsetX + x * blockSize, offsetY + y * blockSize, blockSize, getColors()[holdPiece.color]);
                     }
                 }
             }
@@ -1575,6 +1895,17 @@
             if (!isPaused) { lastTime = performance.now(); gameLoop = requestAnimationFrame(update); }
         }
 
+        function zenClearBottomRows() {
+            // Remove bottom 2 rows and prepend 2 empty rows at top
+            if (gameMode === 'zen') {
+                board.splice(ROWS - 2, 2);
+                board.unshift(Array(COLS).fill(0), Array(COLS).fill(0));
+                blockPlaceTime.splice(ROWS - 2, 2);
+                blockPlaceTime.unshift(Array(COLS).fill(0), Array(COLS).fill(0));
+                draw();
+            }
+        }
+
         function gameOver() {
             isGameOver = true;
             cancelAnimationFrame(gameLoop);
@@ -1604,6 +1935,28 @@
 
             const deltaTime = time - lastTime;
             lastTime = time;
+
+            // Handle Time Attack timer
+            if (gameMode === 'timeattack' && timeAttackRunning) {
+                timeAttackTimer -= deltaTime;
+                if (timeAttackTimer <= 0) {
+                    timeAttackTimer = 0;
+                    timeAttackRunning = false;
+                    isGameOver = true;
+                    document.getElementById('gameOverScreen').classList.remove('hidden');
+                    document.getElementById('gameOverTitle').textContent = "TIME'S UP!";
+                    document.getElementById('finalScore').textContent = score;
+                    return;
+                }
+                // Update timer display
+                const totalSeconds = Math.max(0, Math.ceil(timeAttackTimer / 1000));
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = totalSeconds % 60;
+                const timerEl = document.getElementById('timerDisplay');
+                if (timerEl) {
+                    timerEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+                }
+            }
 
             if (clearingRows) {
                 clearAnimTimer += deltaTime;
@@ -1637,7 +1990,7 @@
 
         // ========== DRAWING ==========
         function draw() {
-            ctx.fillStyle = BG_COLOR;
+            ctx.fillStyle = getBgColor();
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // Faint grid dots at intersections
@@ -1672,7 +2025,7 @@
                     if (board[y][x]) {
                         if (clearingRows && clearingRows.includes(y)) {
                             if (clearAnimPhase % 2 === 1) drawBlock(ctx, x, y, '#ffffff');
-                            else drawBlock(ctx, x, y, COLORS[board[y][x]]);
+                            else drawBlock(ctx, x, y, getColors()[board[y][x]]);
                             continue;
                         }
 
@@ -1683,7 +2036,7 @@
 
                         if (alpha > 0) {
                             ctx.globalAlpha = alpha;
-                            drawBlock(ctx, x, y, COLORS[board[y][x]]);
+                            drawBlock(ctx, x, y, getColors()[board[y][x]]);
                             ctx.globalAlpha = 1;
                         }
                     }
@@ -1696,14 +2049,14 @@
                 while (!collision(0, ghostY - currentPiece.y + 1)) ghostY++;
                 for (let y = 0; y < currentPiece.shape.length; y++) {
                     for (let x = 0; x < currentPiece.shape[y].length; x++) {
-                        if (currentPiece.shape[y][x]) drawGhostBlock(ctx, currentPiece.x + x, ghostY + y, COLORS[currentPiece.color]);
+                        if (currentPiece.shape[y][x]) drawGhostBlock(ctx, currentPiece.x + x, ghostY + y, getColors()[currentPiece.color]);
                     }
                 }
 
                 // Current piece
                 for (let y = 0; y < currentPiece.shape.length; y++) {
                     for (let x = 0; x < currentPiece.shape[y].length; x++) {
-                        if (currentPiece.shape[y][x]) drawBlock(ctx, currentPiece.x + x, currentPiece.y + y, COLORS[currentPiece.color]);
+                        if (currentPiece.shape[y][x]) drawBlock(ctx, currentPiece.x + x, currentPiece.y + y, getColors()[currentPiece.color]);
                     }
                 }
             }
@@ -1783,7 +2136,7 @@
             for (let y = 0; y < shape.length; y++) {
                 for (let x = 0; x < shape[y].length; x++) {
                     if (shape[y][x]) {
-                        drawPreviewBlock(nextCtx, offsetX + x * blockSize, offsetY + y * blockSize, blockSize, COLORS[nextPiece.color]);
+                        drawPreviewBlock(nextCtx, offsetX + x * blockSize, offsetY + y * blockSize, blockSize, getColors()[nextPiece.color]);
                     }
                 }
             }
@@ -1930,3 +2283,4 @@
     </script>
 </body>
 </html>
+
