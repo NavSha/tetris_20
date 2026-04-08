@@ -457,6 +457,27 @@
             text-shadow: 0 0 8px rgba(212, 168, 86, 0.3);
         }
 
+        .stats-grid {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 6px 24px;
+            margin: 8px 0 24px;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            color: var(--text-warm);
+            text-shadow: 0 0 6px rgba(212, 168, 86, 0.25);
+        }
+
+        .stats-grid .stat-key {
+            color: var(--glow-green);
+            text-shadow: 0 0 6px rgba(51, 255, 136, 0.3);
+        }
+
+        .stats-grid .stat-val {
+            text-align: right;
+            color: var(--text-warm);
+        }
+
         /* ===== PAUSE ===== */
         .paused-overlay {
             position: fixed;
@@ -675,6 +696,11 @@
                 height: 60px;
             }
 
+            .right-panel .panel-box canvas.next-canvas {
+                width: 50px;
+                height: 168px;
+            }
+
             .panel-label {
                 font-size: 6px;
                 margin-bottom: 4px;
@@ -778,6 +804,7 @@
         <h1 class="screen-title game-over-title">GAME OVER</h1>
         <div class="final-score">SCORE <span id="finalScore">0</span></div>
         <div class="final-score">LEVEL <span id="finalLevel">1</span></div>
+        <div class="stats-grid" id="gameOverStats"></div>
         <button class="start-btn" id="restartBtn">CONTINUE?</button>
     </div>
 
@@ -786,6 +813,7 @@
         <h1 class="screen-title victory-title">VICTORY</h1>
         <div class="final-score">SCORE <span id="victoryScore">0</span></div>
         <div class="final-score">ALL 20 LEVELS CLEARED!</div>
+        <div class="stats-grid" id="victoryStats"></div>
         <button class="start-btn" id="victoryRestartBtn">PLAY AGAIN</button>
     </div>
 
@@ -842,7 +870,7 @@
         <div class="right-panel">
             <div class="panel-box">
                 <div class="panel-label">NEXT</div>
-                <canvas id="nextPiece" class="piece-canvas" width="120" height="120"></canvas>
+                <canvas id="nextPiece" class="piece-canvas next-canvas" width="120" height="400"></canvas>
             </div>
         </div>
     </div>
@@ -1082,7 +1110,8 @@
 
         // ========== GAME STATE ==========
         let canvas, ctx, nextCanvas, nextCtx, holdCanvas, holdCtx;
-        let board, currentPiece, nextPiece;
+        let board, currentPiece, nextQueue;
+        const NEXT_QUEUE_SIZE = 5;
         let score, lines, level, startLevel;
         let gameLoop, isPaused, isGameOver;
         let lastTime, dropCounter, dropInterval;
@@ -1094,6 +1123,7 @@
         let linesAtLevel20;
         let lastMoveWasRotation;
         let pieceBag;
+        let piecesPlaced, gameStartTime, lineStats;
 
         // ========== 7-BAG RANDOMIZER ==========
         function shuffleBag() {
@@ -1204,6 +1234,9 @@
             linesAtLevel20 = 0;
             lastMoveWasRotation = false;
             pieceBag = [];
+            piecesPlaced = 0;
+            gameStartTime = performance.now();
+            lineStats = { single: 0, double: 0, triple: 0, tetris: 0, tspin: 0 };
 
             updateScore();
             updateLines();
@@ -1212,7 +1245,10 @@
             holdCtx.fillStyle = BG_COLOR;
             holdCtx.fillRect(0, 0, holdCanvas.width, holdCanvas.height);
 
-            nextPiece = createPiece();
+            nextQueue = [];
+            for (let i = 0; i < NEXT_QUEUE_SIZE; i++) {
+                nextQueue.push(createPiece());
+            }
             spawnPiece();
 
             lastTime = performance.now();
@@ -1231,8 +1267,8 @@
         }
 
         function spawnPiece() {
-            currentPiece = nextPiece;
-            nextPiece = createPiece();
+            currentPiece = nextQueue.shift();
+            nextQueue.push(createPiece());
             currentPiece.x = Math.floor(COLS / 2) - Math.floor(currentPiece.shape[0].length / 2);
             currentPiece.y = 0;
             hasHeld = false;
@@ -1322,6 +1358,7 @@
 
         // ========== MERGE ==========
         function merge() {
+            piecesPlaced++;
             const now = performance.now();
             for (let y = 0; y < currentPiece.shape.length; y++) {
                 for (let x = 0; x < currentPiece.shape[y].length; x++) {
@@ -1432,15 +1469,20 @@
                 const labels = ['', 'T-SPIN SINGLE!', 'T-SPIN DOUBLE!', 'T-SPIN TRIPLE!'];
                 showPopup(labels[Math.min(linesCleared, 3)], 'tspin');
                 isSpecialClear = true;
+                if (linesCleared > 0) lineStats.tspin++;
             } else if (linesCleared === 4) {
                 points = 800 * level;
                 playSound('tetris');
                 showPopup('TETRIS!', 'tetris');
                 isSpecialClear = true;
+                lineStats.tetris++;
             } else {
                 const basePoints = [0, 100, 300, 500, 800];
                 points = basePoints[linesCleared] * level;
                 if (linesCleared > 0) playSound('lineClear');
+                if (linesCleared === 1) lineStats.single++;
+                else if (linesCleared === 2) lineStats.double++;
+                else if (linesCleared === 3) lineStats.triple++;
             }
 
             if (isSpecialClear && lastClearWasSpecial) {
@@ -1575,12 +1617,41 @@
             if (!isPaused) { lastTime = performance.now(); gameLoop = requestAnimationFrame(update); }
         }
 
+        function formatTime(ms) {
+            const totalSeconds = Math.floor(ms / 1000);
+            const m = Math.floor(totalSeconds / 60);
+            const s = totalSeconds % 60;
+            return m + ':' + String(s).padStart(2, '0');
+        }
+
+        function renderStats(elementId) {
+            const elapsedMs = performance.now() - gameStartTime;
+            const seconds = elapsedMs / 1000;
+            const pps = seconds > 0 ? (piecesPlaced / seconds).toFixed(2) : '0.00';
+            const rows = [
+                ['TIME',    formatTime(elapsedMs)],
+                ['PIECES',  piecesPlaced],
+                ['PPS',     pps],
+                ['LINES',   lines],
+                ['SINGLE',  lineStats.single],
+                ['DOUBLE',  lineStats.double],
+                ['TRIPLE',  lineStats.triple],
+                ['TETRIS',  lineStats.tetris],
+                ['T-SPIN',  lineStats.tspin],
+            ];
+            const html = rows.map(([k, v]) =>
+                '<div class="stat-key">' + k + '</div><div class="stat-val">' + v + '</div>'
+            ).join('');
+            document.getElementById(elementId).innerHTML = html;
+        }
+
         function gameOver() {
             isGameOver = true;
             cancelAnimationFrame(gameLoop);
             playSound('gameOver');
             document.getElementById('finalScore').textContent = score;
             document.getElementById('finalLevel').textContent = level;
+            renderStats('gameOverStats');
             document.getElementById('gameOverScreen').classList.remove('hidden');
         }
 
@@ -1589,6 +1660,7 @@
             cancelAnimationFrame(gameLoop);
             playSound('victory');
             document.getElementById('victoryScore').textContent = score;
+            renderStats('victoryStats');
             document.getElementById('victoryScreen').classList.remove('hidden');
         }
 
@@ -1775,15 +1847,20 @@
             nextCtx.fillStyle = BG_COLOR;
             nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
 
-            const shape = nextPiece.shape;
-            const blockSize = 25;
-            const offsetX = (nextCanvas.width - shape[0].length * blockSize) / 2;
-            const offsetY = (nextCanvas.height - shape.length * blockSize) / 2;
+            const slotHeight = nextCanvas.height / NEXT_QUEUE_SIZE;
+            for (let i = 0; i < nextQueue.length; i++) {
+                const piece = nextQueue[i];
+                const shape = piece.shape;
+                // First piece slightly larger to emphasize "up next"
+                const blockSize = i === 0 ? 20 : 16;
+                const offsetX = (nextCanvas.width - shape[0].length * blockSize) / 2;
+                const offsetY = i * slotHeight + (slotHeight - shape.length * blockSize) / 2;
 
-            for (let y = 0; y < shape.length; y++) {
-                for (let x = 0; x < shape[y].length; x++) {
-                    if (shape[y][x]) {
-                        drawPreviewBlock(nextCtx, offsetX + x * blockSize, offsetY + y * blockSize, blockSize, COLORS[nextPiece.color]);
+                for (let y = 0; y < shape.length; y++) {
+                    for (let x = 0; x < shape[y].length; x++) {
+                        if (shape[y][x]) {
+                            drawPreviewBlock(nextCtx, offsetX + x * blockSize, offsetY + y * blockSize, blockSize, COLORS[piece.color]);
+                        }
                     }
                 }
             }
